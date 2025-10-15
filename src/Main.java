@@ -2,6 +2,7 @@ import CLI.CLI;
 
 public class Main{
     public static void main(String[] args){
-        CLI.start();
+        CLI cli = new CLI();
+        cli.start();
     }
 }
