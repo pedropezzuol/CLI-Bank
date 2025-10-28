@@ -1,7 +1,5 @@
 package Model;
 
-import CLI.UserAccountDTO;
-
 public class UserAccount {
     private String email;
     private String password;

@@ -11,13 +11,16 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     public AuthRepositoryImpl() {}
 
-    public void createAccount(UserAccount user){
+    public void save(UserAccount user){
         db.add(user);
-        UserAccount one = db.getFirst();
-        System.out.println(one.getEmail() + one.getPassword());
     }
 
-    public void login(){
-
+    public UserAccount findByEmailAndPassword(UserAccount user){
+        for (UserAccount u : db){
+            if (u.getEmail().equalsIgnoreCase(user.getEmail()) && u.getPassword().equals(user.getPassword())) {
+                return u;
+            }
+        }
+        return null;
     }
 }

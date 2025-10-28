@@ -20,10 +20,16 @@ public class AuthService {
 
     public void createAccount(UserAccountDTO userAccountDTO){
         UserAccount userAccount = AuthService.setUser(userAccountDTO);
-        authRepository.createAccount(userAccount);
+        authRepository.save(userAccount);
     }
 
-    public void login(){
-
+    public UserAccount login(UserAccountDTO userAccountDTO){
+        UserAccount userAccount = AuthService.setUser(userAccountDTO);
+        UserAccount user = authRepository.findByEmailAndPassword(userAccount);
+        if(user == null){
+            System.out.println("Invalid email or password");
+            return null;
+        }
+        return user;
     }
 }

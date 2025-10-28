@@ -1,5 +1,6 @@
 package CLI;
 
+import Model.UserAccount;
 import Service.AuthService;
 
 import java.util.Scanner;
@@ -7,7 +8,6 @@ import java.util.Scanner;
 public class CLI {
     public void start(){
         Scanner scanner = new Scanner(System.in);
-
         AuthService authService = new AuthService();
 
         while(true){
@@ -22,12 +22,13 @@ public class CLI {
 
             switch (option) {
                 case "1":
-                    UserAccountDTO user = CLI.createAccountCLI();
-                    authService.createAccount(user);
+                    UserAccountDTO userCreateAccount = CLI.createAccountCLI();
+                    authService.createAccount(userCreateAccount);
                     break;
                 case "2":
-                    CLI.loginCLI();
-                    authService.login();
+                    UserAccountDTO userLogin = loginCLI();
+                    UserAccount userLoginAuth = authService.login(userLogin);
+                    CLI.UserLoggedCLI(userLoginAuth);
                     break;
                 case "3":
                     break;
@@ -87,5 +88,31 @@ public class CLI {
         password = scanner.nextLine();
 
         return new UserAccountDTO(email, password);
+    }
+
+    private static void UserLoggedCLI(UserAccount user){
+        Scanner scanner = new Scanner(System.in);
+
+        while(true) {
+            System.out.println("===== Welcome Back " + user.getEmail() + " =====");
+            System.out.println("1. transfer");
+            System.out.println("2. view balance");
+            System.out.println("3. account details");
+            System.out.println("4. Exit");
+            System.out.print("-> ");
+
+            String option = scanner.nextLine();
+
+            switch(option){
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+            }
+        }
     }
 }
