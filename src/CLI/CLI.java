@@ -28,15 +28,15 @@ public class CLI {
                 case "2":
                     UserAccountDTO userLogin = loginCLI();
                     UserAccount userLoginAuth = authService.login(userLogin);
-                    CLI.UserLoggedCLI(userLoginAuth);
+                    CLI.userLoggedCLI(userLoginAuth);
                     break;
                 case "3":
                     break;
                 case "4":
-                    System.out.println("Saindo...");
+                    System.out.println("Leaving...");
                     return;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Invalid option");
             }
         }
     }
@@ -90,7 +90,7 @@ public class CLI {
         return new UserAccountDTO(email, password);
     }
 
-    private static void UserLoggedCLI(UserAccount user){
+    private static void userLoggedCLI(UserAccount user){
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
@@ -98,7 +98,8 @@ public class CLI {
             System.out.println("1. transfer");
             System.out.println("2. view balance");
             System.out.println("3. account details");
-            System.out.println("4. Exit");
+            System.out.println("4. Back");
+            System.out.println("5. Exit");
             System.out.print("-> ");
 
             String option = scanner.nextLine();
@@ -107,11 +108,20 @@ public class CLI {
                 case "1":
                     break;
                 case "2":
+                    System.out.println("Balance: " + user.getBalance());
                     break;
                 case "3":
+                    System.out.println("Email: " + user.getEmail());
+                    System.out.println("Password: " + user.getPassword());
+                    System.out.println("IBAN: " + user.getIban());
                     break;
                 case "4":
-                    break;
+                    return;
+                case "5":
+                    System.out.println("Leaving...");
+                    return;
+                default:
+                    System.out.println("Invalid option");
             }
         }
     }

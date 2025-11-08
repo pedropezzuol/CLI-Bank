@@ -2,11 +2,13 @@ package Service;
 
 import CLI.UserAccountDTO;
 import Model.UserAccount;
-import Repository.AuthRepository;
-import Repository.Impl.AuthRepositoryImpl;
+import Repository.UserRepo;
+import Repository.Impl.UserRepoImpl;
+
+import java.util.Optional;
 
 public class AuthService {
-    private AuthRepository authRepository = new AuthRepositoryImpl();
+    private UserRepo userRepoImpl = new UserRepoImpl();
 
     public AuthService(){}
 
@@ -19,17 +21,19 @@ public class AuthService {
     }
 
     public void createAccount(UserAccountDTO userAccountDTO){
-        UserAccount userAccount = AuthService.setUser(userAccountDTO);
-        authRepository.save(userAccount);
+        UserAccount userAccount = setUser(userAccountDTO);
+        Optional<UserAccount> userChecked = userRepoImpl.findByEmail(userAccount);
+        if(userChecked.isPresent()){
+            System.out.println("Email already exist");
+            return;
+        }
+        userAccount.setIban(userRepoImpl.createIBAN());
+        userRepoImpl.save(userAccount);
     }
 
-    public UserAccount login(UserAccountDTO userAccountDTO){
-        UserAccount userAccount = AuthService.setUser(userAccountDTO);
-        UserAccount user = authRepository.findByEmailAndPassword(userAccount);
-        if(user == null){
-            System.out.println("Invalid email or password");
-            return null;
-        }
-        return user;
+    public UserAccount login(UserAccountDTO userAccountDTO) {
+        UserAccount userAccount = setUser(userAccountDTO);
+        return userRepoImpl.findByEmailAndPassword(userAccount)
+                .orElse(null);
     }
 }

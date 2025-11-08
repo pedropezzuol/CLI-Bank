@@ -3,12 +3,12 @@ package Model;
 public class UserAccount {
     private String email;
     private String password;
-    private String iban;
+    private int iban;
     private Double balance;
 
     public UserAccount() {}
 
-    public UserAccount(String email, String iban, String password, Double balance){
+    public UserAccount(String email, int iban, String password, Double balance){
         this.email = email;
         this.iban = iban;
         this.password = password;
@@ -23,7 +23,7 @@ public class UserAccount {
         return password;
     }
 
-    public String getIban() {
+    public int getIban() {
         return iban;
     }
 
@@ -39,7 +39,7 @@ public class UserAccount {
         this.password = password;
     }
 
-    public void setIban(String iban) {
+    public void setIban(int iban) {
         this.iban = iban;
     }
 
