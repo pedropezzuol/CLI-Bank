@@ -31,9 +31,8 @@ public class AuthService {
         userRepoImpl.save(userAccount);
     }
 
-    public UserAccount login(UserAccountDTO userAccountDTO) {
+    public Optional<UserAccount> login(UserAccountDTO userAccountDTO) {
         UserAccount userAccount = setUser(userAccountDTO);
-        return userRepoImpl.findByEmailAndPassword(userAccount)
-                .orElse(null);
+        return userRepoImpl.findByEmailAndPassword(userAccount);
     }
 }

@@ -3,6 +3,7 @@ package CLI;
 import Model.UserAccount;
 import Service.AuthService;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class CLI {
@@ -24,11 +25,14 @@ public class CLI {
                 case "1":
                     UserAccountDTO userCreateAccount = CLI.createAccountCLI();
                     authService.createAccount(userCreateAccount);
-                    break;
+                       break;
                 case "2":
                     UserAccountDTO userLogin = loginCLI();
-                    UserAccount userLoginAuth = authService.login(userLogin);
-                    CLI.userLoggedCLI(userLoginAuth);
+                    Optional<UserAccount> userLoginAuth = authService.login(userLogin);
+                    userLoginAuth.ifPresentOrElse(
+                            CLI::userLoggedCLI,
+                            () -> System.out.println("User not found")
+                        );
                     break;
                 case "3":
                     break;
@@ -106,6 +110,7 @@ public class CLI {
 
             switch(option){
                 case "1":
+                    transferCLI();
                     break;
                 case "2":
                     System.out.println("Balance: " + user.getBalance());
@@ -124,5 +129,19 @@ public class CLI {
                     System.out.println("Invalid option");
             }
         }
+    }
+
+    public static void transferCLI(){
+        Scanner scanner = new Scanner(System.in);
+        int iban;
+        double amount;
+
+        System.out.println("Enter recipient IBAN:");
+        System.out.print("->");
+        iban = scanner.nextInt();
+
+        System.out.println("Enter amount");
+        System.out.print("->");
+        amount = scanner.nextDouble();
     }
 }
