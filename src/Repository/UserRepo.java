@@ -9,6 +9,6 @@ public interface UserRepo {
     int createIBAN();
     Optional<UserAccount> findByEmailAndPassword(UserAccount user);
     Optional<UserAccount> findByEmail(UserAccount user);
-    void transfer();
+    Optional<UserAccount> findByIban(int iban);
     void deleteAccount();
 }

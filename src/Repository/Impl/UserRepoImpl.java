@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public class UserRepoImpl implements UserRepo {
 
-    private ArrayList<UserAccount> db = new ArrayList<>();
+    private static ArrayList<UserAccount> db = new ArrayList<>();
 
-    private int iban;
+    private static int iban;
 
     public UserRepoImpl() {}
 
@@ -41,8 +41,13 @@ public class UserRepoImpl implements UserRepo {
         return Optional.empty();
     }
 
-    public void transfer() {
-
+    public Optional<UserAccount> findByIban(int iban) {
+        for(UserAccount u : db){
+            if(u.getIban() == iban){
+                return Optional.of(u);
+            }
+        }
+        return Optional.empty();
     }
 
     public void deleteAccount(){

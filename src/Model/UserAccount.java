@@ -4,7 +4,7 @@ public class UserAccount {
     private String email;
     private String password;
     private int iban;
-    private Double balance;
+    private Double balance = 0.0;
 
     public UserAccount() {}
 

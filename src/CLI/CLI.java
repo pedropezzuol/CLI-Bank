@@ -2,6 +2,7 @@ package CLI;
 
 import Model.UserAccount;
 import Service.AuthService;
+import Service.UserAccountService;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -96,13 +97,14 @@ public class CLI {
 
     private static void userLoggedCLI(UserAccount user){
         Scanner scanner = new Scanner(System.in);
+        UserAccountService userAccountService = new UserAccountService();
 
         while(true) {
             System.out.println("===== Welcome Back " + user.getEmail() + " =====");
             System.out.println("1. transfer");
             System.out.println("2. view balance");
             System.out.println("3. account details");
-            System.out.println("4. Back");
+            System.out.println("4. add money");
             System.out.println("5. Exit");
             System.out.print("-> ");
 
@@ -110,7 +112,13 @@ public class CLI {
 
             switch(option){
                 case "1":
-                    transferCLI();
+                    TransferDTO data = transferCLI();
+                    System.out.println(data.getAmount() + " " + data.getIban());
+                    if(userAccountService.transfer(user, data.getIban(), data.getAmount())){
+                        System.out.println("transaction successful");
+                        break;
+                    }
+                    System.out.println("Error");
                     break;
                 case "2":
                     System.out.println("Balance: " + user.getBalance());
@@ -121,7 +129,16 @@ public class CLI {
                     System.out.println("IBAN: " + user.getIban());
                     break;
                 case "4":
-                    return;
+                    System.out.println("Enter the amount");
+                    System.out.print("-> ");
+                    double amountToAdd = scanner.nextDouble();
+                    scanner.nextLine();
+                    if(amountToAdd < 0 ) {
+                        System.out.println("Please select a correct amount");
+                        break;
+                    }
+                    user.setBalance(user.getBalance() + amountToAdd);
+                    break;
                 case "5":
                     System.out.println("Leaving...");
                     return;
@@ -131,8 +148,9 @@ public class CLI {
         }
     }
 
-    public static void transferCLI(){
+    public static TransferDTO transferCLI(){
         Scanner scanner = new Scanner(System.in);
+
         int iban;
         double amount;
 
@@ -143,5 +161,7 @@ public class CLI {
         System.out.println("Enter amount");
         System.out.print("->");
         amount = scanner.nextDouble();
+
+        return new TransferDTO(iban, amount);
     }
 }
