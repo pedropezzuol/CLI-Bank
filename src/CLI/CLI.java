@@ -4,6 +4,7 @@ import Model.UserAccount;
 import Service.AuthService;
 import Service.UserAccountService;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ public class CLI {
     public void start(){
         Scanner scanner = new Scanner(System.in);
         AuthService authService = new AuthService();
+        UserAccountService userAccountService = new UserAccountService();
 
         while(true){
             System.out.println("=====CLI Bank=====");
@@ -36,6 +38,13 @@ public class CLI {
                         );
                     break;
                 case "3":
+                    ArrayList<UserAccount> users = userAccountService.getAllUsers();
+                    int i = 1;
+                    for(UserAccount u : users){
+                        System.out.println(i + " -> " + u.getEmail());
+                        System.out.println();
+                        i++;
+                    }
                     break;
                 case "4":
                     System.out.println("Leaving...");
@@ -105,7 +114,8 @@ public class CLI {
             System.out.println("2. view balance");
             System.out.println("3. account details");
             System.out.println("4. add money");
-            System.out.println("5. Exit");
+            System.out.println("5. delete this account");
+            System.out.println("6. Exit");
             System.out.print("-> ");
 
             String option = scanner.nextLine();
@@ -140,6 +150,11 @@ public class CLI {
                     user.setBalance(user.getBalance() + amountToAdd);
                     break;
                 case "5":
+                    System.out.println(userAccountService.deleteAccount(user.getIban())
+                            ? "account deleted"
+                            : "error(account not deleted)");
+                    return;
+                case "6":
                     System.out.println("Leaving...");
                     return;
                 default:

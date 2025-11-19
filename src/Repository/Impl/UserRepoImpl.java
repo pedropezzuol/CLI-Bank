@@ -23,7 +23,6 @@ public class UserRepoImpl implements UserRepo {
     }
 
     public Optional<UserAccount> findByEmail(UserAccount user){
-        System.out.println("cu");
         for (UserAccount u : db){
             if(u.getEmail().equalsIgnoreCase(user.getEmail())) {
                 return Optional.of(u);
@@ -50,7 +49,11 @@ public class UserRepoImpl implements UserRepo {
         return Optional.empty();
     }
 
-    public void deleteAccount(){
+    public boolean deleteAccount(int iban){
+        return db.removeIf(user -> user.getIban() == iban);
+    }
 
+    public ArrayList<UserAccount> getAllUsers(){
+        return new ArrayList<>(db);
     }
 }

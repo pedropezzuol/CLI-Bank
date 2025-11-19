@@ -4,6 +4,7 @@ import Model.UserAccount;
 import Repository.Impl.UserRepoImpl;
 import Repository.UserRepo;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserAccountService {
@@ -27,5 +28,13 @@ public class UserAccountService {
         receiver.setBalance(receiver.getBalance() + amount);
         return true;
 
+    }
+
+    public boolean deleteAccount(int iban){
+        return userRepoImpl.deleteAccount(iban);
+    }
+
+    public ArrayList<UserAccount> getAllUsers(){
+        return userRepoImpl.getAllUsers();
     }
 }
